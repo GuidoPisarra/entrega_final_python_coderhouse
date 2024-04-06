@@ -5,6 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from AppBlog.models import Publication
+from AppBlog.forms import *
 
 
 def inicio(request):
@@ -53,26 +54,25 @@ def custom_logout(request):
     return redirect("home")
 
 
-def crear_publicacion(request):
+def new_post(request):
     if request.method == "POST":
-        user_id = request.POST["user_id"]
-        title = request.POST["title"]
-        image = request.FILES["image"]
-        content = request.POST["content"]
-
-        try:
-            user = User.objects.get(id=user_id)
-        except User.DoesNotExist:
-            return render(request, "error.html", {"mensaje": "El usuario no existe"})
-
-        publicacion = Publication.objects.create(
-            user=user, title=title, image=image, content=content
-        )
+        mi_formulario = New_post(request.POST)
+        print(mi_formulario.errors)
+        if mi_formulario.is_valid():
+            datos = mi_formulario.cleaned_data
+            print(request.user)
+            nueva_publicacion = Publication(
+                user=request.user,
+                title=datos["title"],
+                sub_title=datos["sub_title"],
+                content=datos["content"],
+                image=datos["image"],
+            )
 
         # Redireccionar a una página de éxito o mostrar un mensaje
         return render(
-            request, "exito.html", {"mensaje": "Publicación creada exitosamente"}
+            request, "new_post.html", {"mensaje": "Publicación creada exitosamente"}
         )
 
     # Si la petición no es un POST, renderizar el formulario para crear una publicación
-    return render(request, "crear_publicacion.html")
+    return render(request, "new_post.html")

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block contenido %}
+<div class="container col-md-12">
+    <h2 class="my-4 text-center text-lg-left">Crear publicación</h2>
+    <form action="{% url 'new_post' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Título</label>
+            <input type="text" name="title" class="form-control" id="exampleFormControlInput1" placeholder="Título">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">Sub-título</label>
+            <input type="text" name="sub_title" class="form-control" id="exampleFormControlInput1"
+                placeholder="Sub-título">
+        </div>
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Imagen</label>
+            <input class="form-control" name="image" type="file" id="formFile">
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Contenido</label>
+            <textarea class="form-control" name="content" id="exampleFormControlTextarea1" rows="6"></textarea>
+        </div>
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-outline-success md-12">Publicar</button>
+        </div>
+
+
+    </form>
+</div>
+{% endblock %}
