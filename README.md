@@ -103,4 +103,28 @@ Para manejar los templates sin poner las rutar absolutas, configurándolo de est
     },
 ] -->
 
+En la carpeta de la aplicación blog (que es la que haremos primeramente) agregamos la carpeta "static", y dentro de ella los archivos necesarios para que funcione bootstrap.
 
+Cramos dentro de la carpeta AppBlog una carpeta denominada template donde se encontrarán las plantillas html que utilizaremos.
+Creando base.html que sera la base para las demás.
+
+En la carpeta de las aplicaciones creamos el archivo urls.py para manejar el routing que utilizaremos en las mismas
+Para que lo anterior quede bien configurado, debemos configurar en el archivo urls.py del proyecto (entrega_final), quedando éste, de esta manera:
+
+<!--
+from django.contrib import admin
+from django.urls import path, include
+from AppBlog import views
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("/", include("AppBlog.urls")),
+]
+-->
+
+Una vez hecho esto, nos disponemos a desarrollar el blog, teniendo en cuenta que :
+
+- En el archivo urls de las aplicaciones vamos a definir las rutas de nuestro blog
+- En el archivo models de las aplicaciones vamos a definir los modelos que serán utilizados en nuestro blog
+- En el archivo forms de las aplicaciones vamos a definir los formularios que serán utilizados, de ser necesario, al cargar un formulario desde nuestro html
+- En el archivo views de las aplicaciones vamos a definir los vistas que serán utilizadas en nuestro blog
