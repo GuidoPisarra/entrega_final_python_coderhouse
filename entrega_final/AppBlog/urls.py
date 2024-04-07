@@ -9,6 +9,7 @@ urlpatterns = [
     path("login", views.login_user, name="login"),
     path("logout", views.custom_logout, name="logout"),
     path("new_post", views.new_post, name="new_post"),
+    path("about_us", views.about_us, name="about_us"),
     path("search_post", views.search_post, name="search_post"),
     path("search/<int:id_post>", views.search, name="search"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

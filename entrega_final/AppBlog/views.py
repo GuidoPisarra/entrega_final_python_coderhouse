@@ -138,3 +138,11 @@ def search(request, id_post):
             "MEDIA_URL": settings.MEDIA_URL,
         },
     )
+
+
+def about_us(request):
+    publicaciones = Publication.objects.all()
+    return render(
+        request,
+        "about.html",
+    )
