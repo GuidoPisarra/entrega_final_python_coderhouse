@@ -125,3 +125,19 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Configuracion para fecha y hora
+TIME_ZONE = "America/Argentina/Buenos_Aires"
+USE_TZ = True
+
+# Formato de fecha y hora
+DATE_FORMAT = "d/m/Y"  # Formato de fecha (día/mes/año)
+TIME_FORMAT = "H:i:s"  # Formato de hora (24 horas)
+DATETIME_FORMAT = f"{DATE_FORMAT} {TIME_FORMAT}"  # Formato de fecha y hora combinados
+
+# Si deseas usar el formato local de fecha y hora en los templates
+USE_L10N = True
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")

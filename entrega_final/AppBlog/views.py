@@ -6,10 +6,18 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from AppBlog.models import Publication
 from AppBlog.forms import *
+from django.contrib.auth.decorators import login_required
+from django.conf import settings
 
 
 def inicio(request):
-    return render(request, "home.html")
+
+    publicaciones = Publication.objects.all()
+    return render(
+        request,
+        "home.html",
+        {"publicaciones": publicaciones, "MEDIA_URL": settings.MEDIA_URL},
+    )
 
 
 def register(request):
@@ -54,21 +62,20 @@ def custom_logout(request):
     return redirect("home")
 
 
+@login_required
 def new_post(request):
     if request.method == "POST":
-        mi_formulario = New_post(request.POST)
-        print(mi_formulario.errors)
+        mi_formulario = New_post(request.POST, request.FILES)
         if mi_formulario.is_valid():
             datos = mi_formulario.cleaned_data
-            print(request.user)
             nueva_publicacion = Publication(
                 user=request.user,
                 title=datos["title"],
                 sub_title=datos["sub_title"],
                 content=datos["content"],
-                image=datos["image"],
+                image=datos["imagen"],
             )
-
+            nueva_publicacion.save()
         # Redireccionar a una página de éxito o mostrar un mensaje
         return render(
             request, "new_post.html", {"mensaje": "Publicación creada exitosamente"}
