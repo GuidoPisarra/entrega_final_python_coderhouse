@@ -52,8 +52,9 @@
           </li>
           {% endif %}
         </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
+        <form class="d-flex" role="search" action="{% url 'search_post' %}" method="POST">
+          {% csrf_token %}
+          <input class="form-control me-2" type="search" name="search_post" placeholder="Buscar" aria-label="Search">
           <button class="btn btn-outline-light" type="submit">Buscar</button>
         </form>
         {% if user.is_authenticated %}

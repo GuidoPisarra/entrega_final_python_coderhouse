@@ -11,7 +11,6 @@ from django.conf import settings
 
 
 def inicio(request):
-
     publicaciones = Publication.objects.all()
     return render(
         request,
@@ -83,3 +82,40 @@ def new_post(request):
 
     # Si la petición no es un POST, renderizar el formulario para crear una publicación
     return render(request, "new_post.html")
+
+
+def search_post(request):
+    if request.method == "POST":
+        mi_formulario = Form_search_post(request.POST)
+
+        if mi_formulario.is_valid():
+            print("llega")
+            datos = mi_formulario.cleaned_data
+            publicaciones = (
+                Publication.objects.filter(title__icontains=datos["search_post"])
+                | Publication.objects.filter(sub_title__icontains=datos["search_post"])
+                | Publication.objects.filter(content__icontains=datos["search_post"])
+            )
+            if len(publicaciones) > 0:
+                return render(
+                    request,
+                    "home.html",
+                    {"publicaciones": publicaciones, "MEDIA_URL": settings.MEDIA_URL},
+                )
+        else:
+            return render(
+                request,
+                "home.html",
+                {
+                    "error": "No se encontraron publicaciones para su búsqueda.",
+                    "MEDIA_URL": settings.MEDIA_URL,
+                },
+            )
+    return render(
+        request,
+        "home.html",
+        {
+            "error": "No se encontraron publicaciones para su búsqueda.",
+            "MEDIA_URL": settings.MEDIA_URL,
+        },
+    )
