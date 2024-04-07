@@ -119,3 +119,22 @@ def search_post(request):
             "MEDIA_URL": settings.MEDIA_URL,
         },
     )
+
+
+def search(request, id_post):
+
+    if request.method == "GET":
+        publicacion = Publication.objects.get(id=id_post)
+        return render(
+            request,
+            "ver_mas_publicacion.html",
+            {"publicacion": publicacion, "MEDIA_URL": settings.MEDIA_URL},
+        )
+    return render(
+        request,
+        "home.html",
+        {
+            "error": "No se encontraron publicaciones para su búsqueda.",
+            "MEDIA_URL": settings.MEDIA_URL,
+        },
+    )

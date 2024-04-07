@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+{% get_media_prefix as MEDIA_URL %}
+
+{% block contenido %}
+<div class="container col-md-12" style="margin-bottom: 5rem;">
+    <h2 class="my-4 text-center text-lg-left">{{publicacion.title}}</h2>
+    <div class="container row-md-4" style="margin-right: 20px;">
+        <img src="{{ MEDIA_URL }}{{ publicacion.image }}" class="rounded float-start"
+            alt="{{ MEDIA_URL }}{{ publicacion.image }}" style="height: 30%; width:30%;">
+    </div>
+    <div class="container row-md-4">
+        <div class="col">
+            <h6 class="card-subtitle mb-2 text-muted">{{ publicacion.sub_title }}</h6>
+            <p class="card-text">{{ publicacion.content }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
