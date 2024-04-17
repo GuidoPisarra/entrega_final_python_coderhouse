@@ -15,3 +15,11 @@ class Publication(models.Model):
         return (
             f"image: {self.image} content: {self.content} date : {self.date_published}"
         )
+
+
+class Avatar(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    imagen = models.ImageField(upload_to="avatares", null=True, blank=True)
+
+    def __str__(self):
+        return f"User: {self.user} imagen: {self.imagen}"

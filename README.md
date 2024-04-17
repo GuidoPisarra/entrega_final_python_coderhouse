@@ -41,9 +41,9 @@ Signup
 
 Requisitos base
 
-Tener una app de registro donde se puedan registrar usuarios en el route accounts/signup, un usuario está compuesto por: email - contraseña - nombre de usuario.
+# Tener una app de registro donde se puedan registrar usuarios en el route accounts/signup, un usuario está compuesto por: email - contraseña - nombre de usuario.
 
-Tener una app de login en el route accounts/login/ la cual permite loguearse con los datos de administrador o de usuario normal.
+# Tener una app de login en el route accounts/login/ la cual permite loguearse con los datos de administrador o de usuario normal.
 
 Tener una app de perfiles en el route accounts/profile/ la cual muestra la info de nuestro usuario y permite poder modificar y/o borrar: imagen - nombre - descripción - un link a una página web - email y contraseña.
 

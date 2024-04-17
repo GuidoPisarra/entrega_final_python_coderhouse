@@ -8,10 +8,12 @@ from AppBlog.models import Publication
 from AppBlog.forms import *
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from .forms import AvatarForm
 
 
 def inicio(request):
-    publicaciones = Publication.objects.all()
+    publicaciones = Publication.objects.select_related("user").all()
+
     return render(
         request,
         "home.html",
@@ -44,9 +46,12 @@ def login_user(request):
             user = authenticate(username=usuario, password=contra)
             if user is not None:
                 login(request, user)
-                print(user)
+                avatar = Avatar.objects.get_or_create(user=usuario)[0]
+
                 return render(
-                    request, "user_home.html", {"mensaje": f"Binevenid@ {usuario}"}
+                    request,
+                    "user_home.html",
+                    {"mensaje": f"Binevenid@ {usuario}", "avatar": avatar},
                 )
             else:
                 return HttpResponse(f"Usuario no encontrado.")
@@ -145,4 +150,51 @@ def about_us(request):
     return render(
         request,
         "about.html",
+    )
+
+
+@login_required
+def profile(request):
+    usuario = request.user
+    avatar = Avatar.objects.get_or_create(user=usuario)[0]
+
+    if request.method == "POST":
+        mi_formulario = User_edit_form(request.POST, instance=usuario)
+        avatar_form = AvatarForm(request.POST, request.FILES, instance=avatar)
+        if mi_formulario.is_valid() and avatar_form.is_valid():
+            mi_formulario.save()
+            avatar_form.save()
+            return render(
+                request,
+                "profile.html",
+                {
+                    "mi_formulario": mi_formulario,
+                    "avatar_form": avatar_form,
+                    "usuario": usuario,
+                    "avatar": avatar,
+                },
+            )
+
+    else:
+        mi_formulario = User_edit_form(instance=usuario)
+        avatar_form = AvatarForm(instance=avatar)
+        return render(
+            request,
+            "profile.html",
+            {
+                "mi_formulario": mi_formulario,
+                "avatar_form": avatar_form,
+                "usuario": usuario,
+                "avatar": avatar,
+            },
+        )
+    return render(
+        request,
+        "profile.html",
+        {
+            "mi_formulario": mi_formulario,
+            "avatar_form": avatar_form,
+            "usuario": usuario,
+            "avatar": avatar,
+        },
     )

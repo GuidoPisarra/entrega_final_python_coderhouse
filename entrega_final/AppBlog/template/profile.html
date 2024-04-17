@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block contenido %}
+<div class="container col-md-12">
+    <h2 class="my-4 text-center text-lg-left d-flex justify-content-center">Mi perfil</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Editar perfil</h5>
+                </div>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="card-body text-center">
+                        <div class="avatar">
+                            {% if avatar.imagen %}
+                            <img src="{{ avatar.imagen.url }}" alt="Avatar de {{ usuario.username }}"
+                                class="img-thumbnail rounded-circle mx-auto d-block"
+                                style="width: 150px; height: 150px; object-fit: cover;">
+                            {% else %}
+                            <div class="avatar-placeholder rounded-circle mx-auto d-block"
+                                style="width: 150px; height: 150px; background-color: #e9ecef; display: flex; justify-content: center; align-items: center;">
+                                <span class="text-muted">No hay avatar</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <label for="id_email">Imagen:</label>
+                        <input type="file" name="imagen" accept="image/*" class="form-control-file mt-2"
+                            style="border: solid 2px #1a1e21; border-radius: 28px; margin-bottom: 8px; padding: 4px; width: 100%;">
+                        <div class="form-group">
+                            <label for="id_email">Email:</label>
+                            {{ mi_formulario.email }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_password1">Nueva contraseña:</label>
+                            {{ mi_formulario.password1 }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_password2">Repetir contraseña:</label>
+                            {{ mi_formulario.password2 }}
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-success text-center">
+                        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

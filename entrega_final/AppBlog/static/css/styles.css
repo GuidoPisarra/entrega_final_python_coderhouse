@@ -10917,3 +10917,11 @@ footer.footer {
   padding-top: 4rem;
   padding-bottom: 4rem;
 }
+
+#id_email, #id_password1, #id_password2{
+  border: solid 2px #1a1e21;    
+  border-radius: 28px;    
+  margin-bottom: 8px;
+  padding: 4px;
+  width: 100%;
+}
