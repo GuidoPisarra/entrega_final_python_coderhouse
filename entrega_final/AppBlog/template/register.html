@@ -2,14 +2,20 @@
 {% load static %}
 
 {% block contenido %}
-<h2>REGISTER</h2>
-
-
-<form action="" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    {% if not mensaje %}
-    <button>Enviar</button>
-    {% endif %}
-</form>
+<div class="container col-md-12">
+    <div class="column justify-content-center contenedor-login">
+        <div class="col-md-8">
+            <div class="card register">
+                <h2>Registrarse</h2>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    {% if not mensaje %}
+                    <button class="btn btn-success" style="width: 100%;">Registrarse</button>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

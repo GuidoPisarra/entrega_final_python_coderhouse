@@ -20,8 +20,9 @@ def obtener_avatar(usuario):
 
 # Devuelve la cantidad de mensajes no leidos del usuario logueado
 def buscar_mensajes_no_leidos(usuario) -> int:
+    mensajes = 0
     if not isinstance(usuario, AnonymousUser):
-        # El usuario está autenticado, se obtiene o crea el avatar
+        # El usuario está autenticado, se obtienen los mensajes
         mensajes = Message.objects.filter(user_recept=usuario, read=False).count()
     return mensajes
 

@@ -10918,7 +10918,7 @@ footer.footer {
   padding-bottom: 4rem;
 }
 
-#id_email, #id_password1, #id_password2{
+#id_email, #id_password1, #id_password2, #id_username, #id_password{
   border: solid 2px #1a1e21;    
   border-radius: 28px;    
   margin-bottom: 8px;
@@ -10946,4 +10946,22 @@ label{
 
 .texto-mensaje{
   color: #101112 !important;
+}
+
+.login{
+  background-color: #495057 !important;
+  padding: 1rem;
+  min-height: 14rem;
+  max-width: 20rem;
+}
+
+.register{
+  background-color: #495057 !important;
+  padding: 1rem;
+  min-height: 14rem;
+  max-width: 30rem;
+}
+
+.contenedor-login{
+  margin-left: 30%;
 }

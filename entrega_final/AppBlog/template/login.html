@@ -2,10 +2,18 @@
 {% load static %}
 
 {% block contenido %}
-<h2>Ingrese sus datos</h2>
-<form action="" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button>Enviar</button>
-</form>
+<div class="container col-md-12">
+    <div class="column justify-content-center contenedor-login">
+        <div class="col-md-8">
+            <div class="card login">
+                <h2>Ingrese sus datos</h2>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-success" style="width: 100%;">Ingresar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
