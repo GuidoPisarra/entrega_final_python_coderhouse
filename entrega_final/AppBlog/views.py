@@ -12,8 +12,7 @@ from .forms import AvatarForm
 
 
 def inicio(request):
-    publicaciones = Publication.objects.select_related("user").all()
-
+    publicaciones = Publication.objects.all()
     return render(
         request,
         "home.html",
@@ -46,18 +45,20 @@ def login_user(request):
             user = authenticate(username=usuario, password=contra)
             if user is not None:
                 login(request, user)
-                avatar = Avatar.objects.get_or_create(user=usuario)[0]
+                # Asegurarse de pasar el objeto 'user' completo a Avatar
+                avatar = Avatar.objects.get_or_create(user=user)[0]
 
                 return render(
                     request,
                     "user_home.html",
-                    {"mensaje": f"Binevenid@ {usuario}", "avatar": avatar},
+                    {"mensaje": f"Bienvenid@ {user.username}", "avatar": avatar},
                 )
             else:
-                return HttpResponse(f"Usuario no encontrado.")
+                return HttpResponse("Usuario no encontrado.")
         else:
-            return HttpResponse(f"Form incorrecto {form}")
-    form = AuthenticationForm()
+            return HttpResponse(f"Formulario incorrecto {form}")
+    else:
+        form = AuthenticationForm()
     return render(request, "login.html", {"form": form})
 
 
@@ -92,9 +93,7 @@ def new_post(request):
 def search_post(request):
     if request.method == "POST":
         mi_formulario = Form_search_post(request.POST)
-
         if mi_formulario.is_valid():
-            print("llega")
             datos = mi_formulario.cleaned_data
             publicaciones = (
                 Publication.objects.filter(title__icontains=datos["search_post"])
@@ -127,7 +126,6 @@ def search_post(request):
 
 
 def search(request, id_post):
-
     if request.method == "GET":
         publicacion = Publication.objects.get(id=id_post)
         return render(

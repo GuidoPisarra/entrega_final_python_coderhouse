@@ -58,7 +58,10 @@ ROOT_URLCONF = "entrega_final.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(settings.BASE_DIR, "AppBlog", "template")],
+        "DIRS": [
+            os.path.join(settings.BASE_DIR, "AppBlog", "template"),
+            os.path.join(settings.BASE_DIR, "AppMessenger", "template"),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

@@ -16,11 +16,25 @@
                     <h2 class="card-title">{{ publicacion.title }}</h6>
                         <h5 class="card-subtitle mb-2 text-muted">{{ publicacion.sub_title }}</h5>
                         <h7 class="card-subtitle mb-2 text-muted">Autor: {{ publicacion.user.username }}</h7>
+
                         <p class="card-text">{{ publicacion.content|truncatewords:20 }}</p>
-                        <form action="{% url 'search' publicacion.id %}" method="GET" class="mt-auto">
-                            {% csrf_token %}
-                            <button class="btn btn-primary" type="submit">Ver más</button>
-                        </form>
+                        <div class="botones-tarjeta">
+                            <form action="{% url 'search' publicacion.id %}" method="GET" class="mt-auto">
+                                {% csrf_token %}
+                                <button class="btn btn-primary" type="submit">Ver más</button>
+                            </form>
+                            {% if user.is_authenticated %}
+
+                            <form action="{% url 'create_messege' publicacion.id %}" method="GET" class="mt-auto">
+                                {% csrf_token %}
+                                <button class="btn btn-primary" type="submit">Contactar</button>
+                            </form>
+
+                        </div>
+
+                        {% endif %}
+
+
                 </div>
             </div>
         </div>

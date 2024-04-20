@@ -10925,9 +10925,3 @@ footer.footer {
   padding: 4px;
   width: 100%;
 }
-
-.botones-tarjeta{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around
-}

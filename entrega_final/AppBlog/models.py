@@ -12,9 +12,7 @@ class Publication(models.Model):
     date_published = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return (
-            f"image: {self.image} content: {self.content} date : {self.date_published}"
-        )
+        return f"image: {self.image} content: {self.content} date : {self.date_published}, user_id: {self.user.id}"
 
 
 class Avatar(models.Model):

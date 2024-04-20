@@ -13,4 +13,5 @@ urlpatterns = [
     path("search_post", views.search_post, name="search_post"),
     path("search/<int:id_post>", views.search, name="search"),
     path("profile", views.profile, name="profile"),
+    # Asegúrate de cambiar 'tu_app' por el nombre real de tu aplicación
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
