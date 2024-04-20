@@ -8,7 +8,7 @@
     <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for publicacion in publicaciones %}
         <div class="col">
-            <div class="card" style="max-height: 30rem; min-height: 30rem;">
+            <div class="card" style="max-height: 32rem; min-height: 32rem;">
                 <img src="{{ MEDIA_URL }}{{ publicacion.image }}" class="card-img-top"
                     alt="{{ MEDIA_URL }}{{ publicacion.image }}" style="max-height:160px;">
 
@@ -16,6 +16,10 @@
                     <h2 class="card-title">{{ publicacion.title }}</h6>
                         <h5 class="card-subtitle mb-2 text-muted">{{ publicacion.sub_title }}</h5>
                         <h7 class="card-subtitle mb-2 text-muted">Autor: {{ publicacion.user.username }}</h7>
+
+                        <p class="card-text">Fecha de publicación: {{ publicacion.date_published|date:"d-m-Y H:i" }}hs.
+                        </p>
+
 
                         <p class="card-text">{{ publicacion.content|truncatewords:20 }}</p>
                         <div class="botones-tarjeta">

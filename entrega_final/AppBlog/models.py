@@ -8,7 +8,6 @@ class Publication(models.Model):
     sub_title = models.CharField(max_length=1000)
     content = models.CharField(max_length=1000)
     image = models.ImageField(upload_to="files", blank=True, null=True)
-
     date_published = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

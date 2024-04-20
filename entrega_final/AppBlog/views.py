@@ -12,25 +12,34 @@ from django.conf import settings
 from .forms import AvatarForm
 
 
-def inicio(request):
-    publicaciones = Publication.objects.all()
+# Devuelve el avatar si el usuario esta logueado y posee uno
+def obtener_avatar(usuario):
     avatar = ""
-    usuario = request.user
-
-    if isinstance(usuario, AnonymousUser):
-        # El usuario no está autenticado, no se obtiene el avatar
-        pass
-    else:
+    if not isinstance(usuario, AnonymousUser):
         # El usuario está autenticado, se obtiene o crea el avatar
         avatar, created = Avatar.objects.get_or_create(user=usuario)
+    return avatar
 
+
+# Devuelve la cantidad de mensajes no leidos del usuario logueado
+def buscar_mensajes_no_leidos(usuario) -> int:
+    if not isinstance(usuario, AnonymousUser):
+        # El usuario está autenticado, se obtiene o crea el avatar
+        mensajes = Message.objects.filter(user_recept=usuario, read=False).count()
+
+    return mensajes
+
+
+def inicio(request):
+    publicaciones = Publication.objects.all()
     return render(
         request,
         "home.html",
         {
             "publicaciones": publicaciones,
             "MEDIA_URL": settings.MEDIA_URL,
-            "avatar": avatar,
+            "avatar": obtener_avatar(request.user),
+            "mensajes_recibidos": buscar_mensajes_no_leidos(request.user),
         },
     )
 
@@ -51,13 +60,6 @@ def register(request):
     return render(request, "register.html", {"form": form})
 
 
-def buscar_mensajes_no_leidos(id) -> int:
-    mensajes = Message.objects.filter(
-        user_recept=User.objects.get(pk=id), read=False
-    ).count()
-    return mensajes
-
-
 def login_user(request):
     if request.method == "POST":
         form = AuthenticationForm(request=request, data=request.POST)
@@ -68,7 +70,7 @@ def login_user(request):
             if user is not None:
                 login(request, user)
                 avatar = Avatar.objects.get_or_create(user=user)[0]
-                mensajes_no_leidos = buscar_mensajes_no_leidos(user.id)
+                publicaciones = Publication.objects.filter(user=request.user)
 
                 return render(
                     request,
@@ -76,7 +78,10 @@ def login_user(request):
                     {
                         "mensaje": f"Bienvenid@ {user.username}",
                         "avatar": avatar,
-                        "mensajes_recibidos": mensajes_no_leidos,
+                        "mensajes_recibidos": buscar_mensajes_no_leidos(request.user),
+                        "avatar": obtener_avatar(request.user),
+                        "publicaciones": publicaciones,
+                        "MEDIA_URL": settings.MEDIA_URL,
                     },
                 )
             else:
@@ -109,11 +114,24 @@ def new_post(request):
             nueva_publicacion.save()
         # Redireccionar a una página de éxito o mostrar un mensaje
         return render(
-            request, "new_post.html", {"mensaje": "Publicación creada exitosamente"}
+            request,
+            "new_post.html",
+            {
+                "mensaje": "Publicación creada exitosamente",
+                "avatar": obtener_avatar(request.user),
+                "mensajes_recibidos": buscar_mensajes_no_leidos(request.user),
+            },
         )
 
     # Si la petición no es un POST, renderizar el formulario para crear una publicación
-    return render(request, "new_post.html")
+    return render(
+        request,
+        "new_post.html",
+        {
+            "avatar": obtener_avatar(request.user),
+            "mensajes_recibidos": buscar_mensajes_no_leidos(request.user),
+        },
+    )
 
 
 def search_post(request):
@@ -130,7 +148,11 @@ def search_post(request):
                 return render(
                     request,
                     "home.html",
-                    {"publicaciones": publicaciones, "MEDIA_URL": settings.MEDIA_URL},
+                    {
+                        "publicaciones": publicaciones,
+                        "MEDIA_URL": settings.MEDIA_URL,
+                        "avatar": obtener_avatar(request.user),
+                    },
                 )
         else:
             return render(
@@ -139,6 +161,7 @@ def search_post(request):
                 {
                     "error": "No se encontraron publicaciones para su búsqueda.",
                     "MEDIA_URL": settings.MEDIA_URL,
+                    "avatar": obtener_avatar(request.user),
                 },
             )
     return render(
@@ -147,6 +170,7 @@ def search_post(request):
         {
             "error": "No se encontraron publicaciones para su búsqueda.",
             "MEDIA_URL": settings.MEDIA_URL,
+            "avatar": obtener_avatar(request.user),
         },
     )
 
@@ -157,7 +181,11 @@ def search(request, id_post):
         return render(
             request,
             "ver_mas_publicacion.html",
-            {"publicacion": publicacion, "MEDIA_URL": settings.MEDIA_URL},
+            {
+                "publicacion": publicacion,
+                "MEDIA_URL": settings.MEDIA_URL,
+                "avatar": obtener_avatar(request.user),
+            },
         )
     return render(
         request,
@@ -165,15 +193,19 @@ def search(request, id_post):
         {
             "error": "No se encontraron publicaciones para su búsqueda.",
             "MEDIA_URL": settings.MEDIA_URL,
+            "avatar": obtener_avatar(request.user),
         },
     )
 
 
 def about_us(request):
-    publicaciones = Publication.objects.all()
     return render(
         request,
         "about.html",
+        {
+            "avatar": obtener_avatar(request.user),
+            "mensajes_recibidos": buscar_mensajes_no_leidos(request.user),
+        },
     )
 
 
@@ -195,7 +227,8 @@ def profile(request):
                     "mi_formulario": mi_formulario,
                     "avatar_form": avatar_form,
                     "usuario": usuario,
-                    "avatar": avatar,
+                    "avatar": obtener_avatar(request.user),
+                    "mensajes_recibidos": buscar_mensajes_no_leidos(request.user),
                 },
             )
 
@@ -209,7 +242,8 @@ def profile(request):
                 "mi_formulario": mi_formulario,
                 "avatar_form": avatar_form,
                 "usuario": usuario,
-                "avatar": avatar,
+                "avatar": obtener_avatar(request.user),
+                "mensajes_recibidos": buscar_mensajes_no_leidos(request.user),
             },
         )
     return render(
@@ -219,6 +253,7 @@ def profile(request):
             "mi_formulario": mi_formulario,
             "avatar_form": avatar_form,
             "usuario": usuario,
-            "avatar": avatar,
+            "avatar": obtener_avatar(request.user),
+            "mensajes_recibidos": buscar_mensajes_no_leidos(request.user),
         },
     )
