@@ -45,11 +45,11 @@
           </li>
           {% endif %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'about_us' %}">Acerca de nosotros</a>
+            <a class="nav-link" href="{% url 'about_us' %}">Acerca de mí</a>
           </li>
           {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="">Mensajes</a>
+            <a class="nav-link" href="{% url 'ver_mensajes' %}">Mensajes</a>
           </li>
           {% endif %}
         </ul>
@@ -73,7 +73,10 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="{% url 'profile' %}">Mi perfil</a></li>
-              <li><a class="dropdown-item" href="#">Mensajes</a></li>
+              <li>
+                <a class="dropdown-item" href="{% url 'ver_mensajes' %}">Mensajes
+                  <span class="badge rounded-pill text-bg-primary">{{mensajes_recibidos}}</span></a>
+              </li>
               <li>
                 <hr class="dropdown-divider">
               </li>

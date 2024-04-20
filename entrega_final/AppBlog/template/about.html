@@ -1,10 +1,46 @@
 {% extends "base.html" %}
 {% load static %}
-{% get_media_prefix as MEDIA_URL %}
+
 
 {% block contenido %}
 <div class="container col-md-12">
-    <h2 class="my-4 text-center text-lg-left">About</h2>
+    <h2 class="my-4 text-center text-lg-left">Pisarra Guido</h2>
+    <img src="{% static '/assets/img/guido.jpg' %}" alt="Avatar de {{ usuario.username }}"
+        class="img-thumbnail rounded-circle mx-auto d-block" style="width: 150px; height: 150px; object-fit: cover;">
+
+    <h1>Sobre mi</h1>
+    <p>
+        Soy un desarrollador de aplicaciones informáticas con experiencia en diferentes tecnologías y metodologías.
+        Graduado
+        en la Universidad Nacional del Centro de la Provincia de Buenos Aires en la Tecnicatura Universitaria en
+        Desarrollo
+        de Aplicaciones Informáticas.
+    </p>
+    <p>
+        Durante mi carrera, he adquirido conocimientos intermedios en diversas áreas, incluyendo Java, POO, HTML, CSS,
+        Javascript, AngularJS, PHP, Symfony, Ionic y SQL. También poseo conocimientos básicos en Vue.js, GO, React,
+        Node.js, PostgreSQL y SQL Server.
+        Además, cuento con experiencia en metodologías ágiles como Scrum y manejo avanzado de Git para control de
+        versiones.
+    </p>
+
+    <h1>Descripción del Proyecto</h1>
+
+    <p>
+        Este proyecto web está diseñado para proporcionar a los usuarios acceso a contenido diverso y útil. Presenta las
+        siguientes características:
+    </p>
+
+    <h2>Funcionalidades</h2>
+    <ul>
+        <li>Sección "Acerca de mí" para conocer a los creadores del sitio.</li>
+        <li>Acceso a la sección de home para explorar artículos publicados.</li>
+        <li>Páginas detalladas con información adicional.</li>
+        <li>Gestión de fotos para usuarios.</li>
+        <li>Gestión de usuarios y permisos de acceso.</li>
+        <li>Servicio de mensajería entre usuarios.</li>
+    </ul>
+
 
 </div>
 

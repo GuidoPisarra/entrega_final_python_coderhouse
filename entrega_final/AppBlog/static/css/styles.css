@@ -10931,3 +10931,19 @@ footer.footer {
   flex-direction: row;
   justify-content: space-around
 }
+
+label{
+  color:#101112 !important;
+}
+
+.mensaje{
+  color: whitesmoke !important;
+}
+
+.ver-mensaje:hover{
+  cursor:  pointer !important;
+}
+
+.texto-mensaje{
+  color: #101112 !important;
+}

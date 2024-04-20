@@ -24,15 +24,14 @@
                                 <button class="btn btn-primary" type="submit">Ver más</button>
                             </form>
                             {% if user.is_authenticated %}
-
                             <form action="{% url 'create_messege' publicacion.id %}" method="GET" class="mt-auto">
                                 {% csrf_token %}
                                 <button class="btn btn-primary" type="submit">Contactar</button>
                             </form>
+                            {% endif %}
 
                         </div>
 
-                        {% endif %}
 
 
                 </div>

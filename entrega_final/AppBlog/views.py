@@ -3,8 +3,9 @@ from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from AppBlog.models import Publication
+from AppMessenger.models import Message
 from AppBlog.forms import *
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
@@ -13,10 +14,24 @@ from .forms import AvatarForm
 
 def inicio(request):
     publicaciones = Publication.objects.all()
+    avatar = ""
+    usuario = request.user
+
+    if isinstance(usuario, AnonymousUser):
+        # El usuario no está autenticado, no se obtiene el avatar
+        pass
+    else:
+        # El usuario está autenticado, se obtiene o crea el avatar
+        avatar, created = Avatar.objects.get_or_create(user=usuario)
+
     return render(
         request,
         "home.html",
-        {"publicaciones": publicaciones, "MEDIA_URL": settings.MEDIA_URL},
+        {
+            "publicaciones": publicaciones,
+            "MEDIA_URL": settings.MEDIA_URL,
+            "avatar": avatar,
+        },
     )
 
 
@@ -36,6 +51,13 @@ def register(request):
     return render(request, "register.html", {"form": form})
 
 
+def buscar_mensajes_no_leidos(id) -> int:
+    mensajes = Message.objects.filter(
+        user_recept=User.objects.get(pk=id), read=False
+    ).count()
+    return mensajes
+
+
 def login_user(request):
     if request.method == "POST":
         form = AuthenticationForm(request=request, data=request.POST)
@@ -45,13 +67,17 @@ def login_user(request):
             user = authenticate(username=usuario, password=contra)
             if user is not None:
                 login(request, user)
-                # Asegurarse de pasar el objeto 'user' completo a Avatar
                 avatar = Avatar.objects.get_or_create(user=user)[0]
+                mensajes_no_leidos = buscar_mensajes_no_leidos(user.id)
 
                 return render(
                     request,
                     "user_home.html",
-                    {"mensaje": f"Bienvenid@ {user.username}", "avatar": avatar},
+                    {
+                        "mensaje": f"Bienvenid@ {user.username}",
+                        "avatar": avatar,
+                        "mensajes_recibidos": mensajes_no_leidos,
+                    },
                 )
             else:
                 return HttpResponse("Usuario no encontrado.")

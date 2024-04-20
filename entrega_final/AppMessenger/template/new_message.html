@@ -7,8 +7,8 @@
     <form action="{% url 'create_messege' id_post %}" method="POST">
         {% csrf_token %}
         <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">Mensaje</label>
-            <label for="exampleFormControlTextarea1" class="form-label">Para: {{destinatario}}</label>
+            <label for="exampleFormControlTextarea1" class="form-label mensaje">Mensaje</label>
+            <label for="exampleFormControlTextarea1" class="form-label mensaje">Para: {{destinatario}}</label>
             <textarea class="form-control" name="text" id="exampleFormControlTextarea1" rows="6"></textarea>
             <input name="user_recept" value="{{id_destinatario}}" hidden />
         </div>

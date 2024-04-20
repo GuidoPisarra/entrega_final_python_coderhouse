@@ -36,8 +36,9 @@ Pages Get pages Get profile
 
 # Login
 
-Get page Update profile
-Signup
+# Get page Update profile
+
+# Signup
 
 Requisitos base
 
@@ -51,7 +52,7 @@ Requisitos base
 
 Contar con un admin en route admin/ donde se puedan manejar las apps y los datos en las apps.
 
-Tener una app de mensajería en el route messages/ para que los perfiles se puedan contactar entre sí.
+# Tener una app de mensajería en el route messages/ para que los perfiles se puedan contactar entre sí.
 
 NOTA: No hace falta que sean APPs separadas, con dos APP estarán bien.
 

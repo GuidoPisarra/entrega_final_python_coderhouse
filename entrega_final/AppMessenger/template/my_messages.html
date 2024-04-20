@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block contenido %}
+<div class="container col-md-12">
+    <h2 class="my-4 text-center text-lg-left">Bandeja de entrada</h2>
+    <ul class="list-group">
+        {% for mensaje in mensajes_no_leidos %}
+        <p class="d-inline-flex gap-1">
+            <li class="list-group-item ver-mensaje" data-bs-toggle="collapse"
+                data-bs-target="#multiCollapseExample1-{{ mensaje.id }}" aria-expanded="false"
+                aria-controls="multiCollapseExample1-{{ mensaje.id }}">
+                Mensaje de: {{ mensaje.user_send }}
+            </li>
+        </p>
+        <div class="col">
+            <div class="collapse multi-collapse" id="multiCollapseExample1-{{ mensaje.id }}">
+                <div class="card card-body texto-mensaje">
+                    {{ mensaje.text }}
+                </div>
+                <button class="btn btn-primary" style="width: 100%;" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal-{{ mensaje.id }}">Responder</button>
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal-{{ mensaje.id }}" tabindex="-1"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Responder</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{% url 'create_messege' 0 %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label for="recipient-name" class="col-form-label">Responder a:</label>
+                                        <input type="text" class="form-control" id="recipient-name"
+                                            value="{{mensaje.user_send}}" disabled>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="message-text" class="col-form-label">Mensaje:</label>
+                                        <textarea class="form-control" name="text" id="message-text"></textarea>
+                                    </div>
+                                    <input name="user_recept" value="{{mensaje.user_send_id}}" hidden />
+                                    <button type="button" class="btn btn-danger"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-success">Enviar</button>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

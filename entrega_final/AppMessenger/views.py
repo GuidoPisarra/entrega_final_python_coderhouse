@@ -11,7 +11,6 @@ from django.conf import settings
 
 @login_required
 def create_messege(request, id_post):
-
     if request.method == "GET":
         id_destinatario = Publication.objects.filter(id=id_post)
         destinatario = User.objects.filter(id=id_destinatario[0].user_id)
@@ -28,13 +27,11 @@ def create_messege(request, id_post):
         form = New_message(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            print(data["user_recept"])
             destinatario = (
                 User.objects.filter(id=data["user_recept"])
                 .values_list("id", flat=True)
                 .first()
             )
-            print(destinatario)
             new_mensaje = Message(
                 text=data["text"],
                 read=False,
@@ -47,3 +44,12 @@ def create_messege(request, id_post):
             )
 
     return render(request, "new_message.html", {"destinatario": ""})
+
+
+def ver_mensajes(request):
+    user = request.user
+    print(user)
+    mensajes = Message.objects.filter(user_recept=user, read=False)
+    print(mensajes)
+
+    return render(request, "my_messages.html", {"mensajes_no_leidos": mensajes})
