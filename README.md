@@ -140,3 +140,7 @@ urlpatterns = [
 # Usuarios y autenticación
 
 Los usuarios serán enviado por mensaje junto con el enlace por la plataforma de Coderhouse.
+
+# Video
+
+- El video se puede ver desde (https://www.youtube.com/channel/UCdP8SgP_8jZd1gGutB6nG7Q).
