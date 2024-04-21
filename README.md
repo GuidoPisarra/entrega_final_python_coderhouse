@@ -138,17 +138,3 @@ urlpatterns = [
 > - En el archivo views de las aplicaciones vamos a definir los vistas que serán utilizadas en nuestro blog
 
 # Usuarios y autenticación
-
-## ADMIN
-
-> [!TIP]
-> SuperUsuario
-> user = giuliano
-> pass = coder123
-
-## Usuario común
-
-> [!TIP]
-> Usuario común
-> usuario = pisarraguido@hotmail.com
-> pass = guido1234
