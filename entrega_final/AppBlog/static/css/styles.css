@@ -10965,3 +10965,10 @@ label{
 .contenedor-login{
   margin-left: 30%;
 }
+
+.opciones-imagen{
+  margin-top: -50px;
+  display: flex;
+  justify-content:flex-end;
+  
+}

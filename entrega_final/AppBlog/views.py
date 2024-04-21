@@ -86,9 +86,19 @@ def login_user(request):
                     },
                 )
             else:
-                return HttpResponse("Usuario no encontrado.")
+                return render(
+                    request,
+                    "login.html",
+                    {"form": form, "error": "No se encontró el usuario"},
+                )
+
         else:
-            return HttpResponse(f"Formulario incorrecto {form}")
+            return render(
+                request,
+                "login.html",
+                {"form": form, "error": "Usuario o contraseña incorrectos."},
+            )
+
     else:
         form = AuthenticationForm()
     return render(request, "login.html", {"form": form})
@@ -258,3 +268,43 @@ def profile(request):
             "mensajes_recibidos": buscar_mensajes_no_leidos(request.user),
         },
     )
+
+
+def delete_image(request, id_post):
+    if request.method == "GET":
+        publicacion = Publication.objects.get(id=id_post)
+
+        publicacion.image = " "
+        publicacion.save()
+        publicaciones = Publication.objects.all()
+        return render(
+            request,
+            "home.html",
+            {
+                "publicaciones": publicaciones,
+                "MEDIA_URL": settings.MEDIA_URL,
+                "avatar": obtener_avatar(request.user),
+                "mensajes_recibidos": buscar_mensajes_no_leidos(request.user),
+                "mensaje": "Imagen eliminada correctamente",
+            },
+        )
+
+
+def edit_image(request):
+    mi_formulario = Edit_image(request.POST, request.FILES)
+    if mi_formulario.is_valid():
+        datos = mi_formulario.cleaned_data
+        publicacion = Publication.objects.get(id=datos["id_publicacion"])
+        publicacion.image = datos["imagen"]
+        publicacion.save()
+        publicaciones = Publication.objects.all()
+        return render(
+            request,
+            "home.html",
+            {
+                "publicaciones": publicaciones,
+                "MEDIA_URL": settings.MEDIA_URL,
+                "avatar": obtener_avatar(request.user),
+                "mensajes_recibidos": buscar_mensajes_no_leidos(request.user),
+            },
+        )

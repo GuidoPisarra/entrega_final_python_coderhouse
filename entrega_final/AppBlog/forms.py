@@ -40,3 +40,8 @@ class AvatarForm(forms.ModelForm):
     class Meta:
         model = Avatar
         fields = ["imagen"]
+
+
+class Edit_image(forms.Form):
+    id_publicacion = forms.IntegerField()
+    imagen = forms.ImageField(required=False)
