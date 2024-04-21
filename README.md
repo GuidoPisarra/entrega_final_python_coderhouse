@@ -138,3 +138,5 @@ urlpatterns = [
 > - En el archivo views de las aplicaciones vamos a definir los vistas que serán utilizadas en nuestro blog
 
 # Usuarios y autenticación
+
+Los usuarios serán enviado por mensaje junto con el enlace por la plataforma de Coderhouse.
